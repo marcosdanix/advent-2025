@@ -48,20 +48,20 @@ fn solve(reader: *Reader) !struct { i64, i64 } {
         }
 
         if (lock == 0) {
-            part_1 = part_1 + 1;
+            part_1 += 1;
         }
 
-        part_2 = part_2 + @divFloor(amount, 100);
+        part_2 += @divFloor(amount, 100);
 
         const remaining = @mod(amount, 100);
         std.debug.assert(remaining > 0);
         if (prev_lock != 0) {
             switch (side) {
                 .L => if (prev_lock - remaining <= 0) {
-                    part_2 = part_2 + 1;
+                    part_2 += 1;
                 },
                 .R => if (prev_lock + remaining >= 100) {
-                    part_2 = part_2 + 1;
+                    part_2 += 1;
                 },
             }
         }
