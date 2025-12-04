@@ -66,25 +66,27 @@ fn part1(bank: []const u8) u64 {
 }
 
 fn part2(bank: []const u8) u64 {
-    var high_digit: [12]u8 = .{0} ** 12;
-    var high_pos: [12]u8 = .{0} ** 12;
+    var next_high_pos: usize = 0;
     var number: u64 = 0;
 
     for (0..12) |n| {
         const x: usize = 12 - n - 1;
         number *= 10;
 
-        for (bank[high_pos[n] .. bank.len - x], high_pos[n]..) |c, i| {
+        var high_digit: u8 = 0;
+        var high_pos: usize = next_high_pos;
+
+        for (bank[high_pos .. bank.len - x], high_pos..) |c, i| {
             const d = digit(c);
-            if (d > high_digit[n]) {
-                high_digit[n] = d;
-                high_pos[n] = @truncate(i);
+            if (d > high_digit) {
+                high_digit = d;
+                high_pos = i;
             }
             if (d == 9) break;
         }
 
-        if (n + 1 < 12) high_pos[n + 1] = 1 + high_pos[n];
-        number += high_digit[n];
+        next_high_pos = 1 + high_pos;
+        number += high_digit;
     }
 
     return number;
